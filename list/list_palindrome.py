@@ -1,6 +1,6 @@
 from linked_list import Node, make_list
 
-head = make_list([1, 2, 3, 4, 4, 3, 2, 1])
+head = make_list([1, 1, 2])
 print head
 
 def is_palindrome(head):
