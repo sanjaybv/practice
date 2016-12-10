@@ -1,4 +1,5 @@
 from stack import Stack
+from collections import deque
 
 class Node:
     def __init__(self, value=None, num_children=2):
@@ -46,16 +47,32 @@ def traverse_postorder(root):
     traverse_postorder(root.children[1])
     print root.value,
 
-def traverse_nonrecursive(root):
-    s = Stack()
-    s.push(root)
-    while len(s):
-        cur_node = s.pop()
-        if not cur_node:
+def iterative_preorder(root):
+    stack = deque()
+    stack.append(root)
+    while stack:
+        node = stack.pop()
+        if not node:
             continue
-        print cur_node.value,
-        s.push(cur_node.children[1])
-        s.push(cur_node.children[0])
+        print node.value,
+        stack.append(node.children[1])
+        stack.append(node.children[0])
+
+def iterative_inorder(root):
+    stack = deque()
+    stack.append(root)
+    while stack:
+        print list(stack)
+        raw_input()
+        element = stack[-1]
+        if not element:
+            continue
+        if element.children[0]:
+            stack.append(element.children[0])
+            continue
+        print element.value
+        stack.pop()
+        stack.append(element.children[1])
 
 def is_balanced(root):
 
@@ -67,22 +84,27 @@ def is_balanced(root):
 
     if not left_isb or not right_isb:
         return False, 0
-    else:
-        if abs(left_depth - right_depth) > 1:
-            return False, 0
-        else:
-            return True, max(left_depth, right_depth) + 1
+    if abs(left_depth - right_depth) > 1:
+        return False, 0
+    return True, max(left_depth, right_depth) + 1
 
 if __name__ == '__main__':
     root = make_tree()
-    root = bst_from_array(range(1, 6))
+    root = bst_from_array([0, 1, 4, 6, 7, 8, 10, 12, 18])
 
-    traverse_inorder(root)
-    print 
+    print 'rec pre'
     traverse_preorder(root)
-    print 
+    print
+    print 'rec in'
+    traverse_inorder(root)
+    print
+    print 'rec post'
     traverse_postorder(root)
     print
-    traverse_nonrecursive(root)
+    print 'it pre'
+    iterative_preorder(root)
+    print
+    print 'it in'
+    iterative_inorder(root)
     print
     print is_balanced(root)

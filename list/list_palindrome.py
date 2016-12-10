@@ -1,8 +1,28 @@
 from linked_list import Node, make_list
 
-head = make_list([1, 1, 2])
+head = make_list([1])
 print head
 
+def is_palindrome(head):
+    stack = []
+    slow = fast = head
+    while fast:
+        if not fast.next:
+            # odd
+            slow = slow.next
+            break
+        stack.append(slow.value)
+        slow = slow.next
+        fast = fast.next.next
+    
+    while len(stack):
+        if stack.pop() != slow.value:
+            return False
+        slow = slow.next
+    
+    return True
+
+'''
 def is_palindrome(head):
     stack = []
     curr = head
@@ -29,5 +49,6 @@ def is_palindrome(head):
         curr = curr.next
     else:
         print 'palindrome!'
+'''
 
-is_palindrome(head)
+print is_palindrome(head)

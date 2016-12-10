@@ -39,6 +39,5 @@ def k_largest(nums, k):
         else:
             low = pivot + 1
 
-for _ in range(int(raw_input())):
-    k = int(raw_input().strip().split(' ')[1])
-    k_largest(map(int, raw_input().strip().split()), k)
+k = int(raw_input())
+k_largest(map(int, raw_input().strip().split()), k)

@@ -1,6 +1,7 @@
 from stack import Stack
 
-query = Stack([7, 2, 5, 8, 2, 3, 1, 4])
+arr = [7, 2, 5, 8, 2, 3, 1, 4]
+query = Stack(arr)
 buff = Stack()
 
 print query
@@ -18,3 +19,20 @@ while not query.is_empty():
         buff.push(element)
 
 print buff
+
+def sort_stack(stack):
+    buff = []
+    while stack:
+        temp = stack.pop()
+        while buff and temp < buff[-1]:
+            stack.append(buff.pop())
+        buff.append(temp)
+
+    while buff:
+        stack.append(buff.pop())
+
+arr = [7, 2, 5, 8, 2, 3, 1, 4]
+print 
+print arr
+sort_stack(arr)
+print arr
