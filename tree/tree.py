@@ -3,48 +3,50 @@ from collections import deque
 
 class Node:
     def __init__(self, value=None, num_children=2):
-        self.children = [None] * num_children
+        self.left, self.right = None, None
         self.value = value
         self.visited = False
 
 def bst_from_array(array):
-    if not len(array):
+    if not array:
         return None
     value, index = array[len(array)/2], len(array)/2
     cur_node = Node(value)
-    cur_node.children[0] = bst_from_array(array[:index])
-    cur_node.children[1] = bst_from_array(array[index+1:])
+    cur_node.left = bst_from_array(array[:index])
+    cur_node.right = bst_from_array(array[index+1:])
     return cur_node
 
 def make_tree():
     root = Node(1)
-    root.children[0] = Node(2)
-    root.children[1] = Node(3)
-    root.children[0].children[0] = Node(4)
-    root.children[0].children[1] = Node(5)
-    root.children[0].children[1].children[0] = Node(6)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.left = Node(4)
+    root.left.right = Node(5)
+    root.left.right.left = Node(6)
 
     return root
 
 def traverse_inorder(root):
     if not root:
         return
-    traverse_inorder(root.children[0])
+    traverse_inorder(root.left)
     print root.value,
-    traverse_inorder(root.children[1])
+    traverse_inorder(root.right)
 
 def traverse_preorder(root):
     if not root:
         return
-    print root.value,
-    traverse_preorder(root.children[0])
-    traverse_preorder(root.children[1])
+    left = root.left
+    right = root.right
+    print root.value, left.value if left else None, right.value if right else None
+    traverse_preorder(root.left)
+    traverse_preorder(root.right)
 
 def traverse_postorder(root):
     if not root:
         return
-    traverse_postorder(root.children[0])
-    traverse_postorder(root.children[1])
+    traverse_postorder(root.left)
+    traverse_postorder(root.right)
     print root.value,
 
 def iterative_preorder(root):
@@ -55,32 +57,27 @@ def iterative_preorder(root):
         if not node:
             continue
         print node.value,
-        stack.append(node.children[1])
-        stack.append(node.children[0])
+        stack.append(node.right)
+        stack.append(node.left)
 
 def iterative_inorder(root):
     stack = deque()
     stack.append(root)
     while stack:
-        print list(stack)
-        raw_input()
-        element = stack[-1]
-        if not element:
-            continue
-        if element.children[0]:
-            stack.append(element.children[0])
-            continue
-        print element.value
-        stack.pop()
-        stack.append(element.children[1])
+        elem = stack.pop()
+        left = elem.left
+        while left:
+            stack.append(left)
+            left = elem.left
+        stack.append(elem.right)
 
 def is_balanced(root):
 
     if not root:
         return True, 1
 
-    left_isb, left_depth = is_balanced(root.children[0])
-    right_isb, right_depth = is_balanced(root.children[1])
+    left_isb, left_depth = is_balanced(root.left)
+    right_isb, right_depth = is_balanced(root.right)
 
     if not left_isb or not right_isb:
         return False, 0
