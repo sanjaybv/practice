@@ -60,16 +60,19 @@ def iterative_preorder(root):
         stack.append(node.right)
         stack.append(node.left)
 
+def stack_lefts(stack, node):
+    while node:
+        stack.append(node)
+        node = node.left
+
 def iterative_inorder(root):
     stack = deque()
-    stack.append(root)
+    stack_lefts(stack, root)
     while stack:
         elem = stack.pop()
-        left = elem.left
-        while left:
-            stack.append(left)
-            left = elem.left
-        stack.append(elem.right)
+        print elem.value,
+        stack_lefts(stack, elem.right)
+
 
 def is_balanced(root):
 
