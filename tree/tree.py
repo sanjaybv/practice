@@ -73,6 +73,15 @@ def iterative_inorder(root):
         print elem.value,
         stack_lefts(stack, elem.right)
 
+def iterative_postorder(root):
+    stack = deque()
+    stack_lefts(stack, root)
+    while stack:
+        elem = stack.pop()
+        print elem.value,
+        if stack and stack[-1].right != elem:
+            stack_lefts(stack, stack[-1].right)
+    
 
 def is_balanced(root):
 
@@ -95,16 +104,19 @@ if __name__ == '__main__':
     print 'rec pre'
     traverse_preorder(root)
     print
+    print 'it pre'
+    iterative_preorder(root)
+    print
     print 'rec in'
     traverse_inorder(root)
+    print
+    print 'it in'
+    iterative_inorder(root)
     print
     print 'rec post'
     traverse_postorder(root)
     print
-    print 'it pre'
-    iterative_preorder(root)
-    print
-    print 'it in'
-    iterative_inorder(root)
+    print 'it post'
+    iterative_postorder(root)
     print
     print is_balanced(root)
