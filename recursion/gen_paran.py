@@ -23,4 +23,6 @@ def concat(char, string_list):
         return [char]
     return [char + x for x in string_list]
 
-print generate_parantheses(3, 3)
+p = generate_parantheses(4, 4)
+print len(p)
+print p
