@@ -2,10 +2,15 @@ import tree
 import sys
 
 def next_inorder(node):
+    # error check
     if not node:
         return None
+
+    # check for right child's left most
     if node.right:
         return leftmost(node.right)
+
+    # parent of a left child
     parent = node.parent
     while parent:
         if parent.right != node:
@@ -26,7 +31,7 @@ def leftmost(root):
 
 def main():
     root = tree.bst_from_array([4, 2, 5, 1, 6, 3, 7])
-    tree.traverse_preorder(root)
+    tree.preorder(root)
 
     node = first_inorder(root)
     while node:
